@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\Models\Product; // Import the Product model
 
 class ProductController extends Controller
 {
@@ -11,7 +12,11 @@ class ProductController extends Controller
      */
     public function index()
     {
-        
+        // $allProducts = Product::get();
+
+        $allProducts = "hola";
+
+        return view('products.index', compact('allProducts'));
     }
 
     /**
@@ -19,7 +24,7 @@ class ProductController extends Controller
      */
     public function create()
     {
-        //
+        return view('products.create');
     }
 
     /**
