@@ -42,6 +42,7 @@ class ProductController extends Controller
         $product->price = $datos['price'];
         $product->stock = $datos['stock'];
         $product->category = "anime";
+        $product->activo = "S";
         $product->created_at = now();
         $product->save();
 
