@@ -1,74 +1,110 @@
-<!DOCTYPE html>
-<html lang="en">
+@extends('layout.app')
 
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>layout</title>
+@section('title', 'Lista de Productos')
+@section('header')
+    <h2 class="text-center">Lista de Productos</h2>
+@endsection
 
-    <link rel="stylesheet" href="../node_modules/bootstrap/dist/css/bootstrap.css">
-
+@section('content')
     <style>
-        .table {
-            display: flex;
+        table#products-table.dataTable thead th {
+            background-color: #631313;
+            color: white;
+            font-weight: bold;
             text-align: center;
-            justify-content: center;
-
         }
 
-        .panel {
-            background-color: #CECECE;
-            border-radius: 20px;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-            margin: 20px;
-            padding: 20px;
+        table#products-table.dataTable tbody td {
+            text-align: center background-color: #ffffff;
+            color: #333;
+            font-size: 14px;
+            text-align: center;
         }
 
-        .panel-heading {
-            display: flex;
-            justify-content: center;
-            padding: 10px;
-            border-radius: 5px 5px 0 0;
+        .btn-primary {
+            background-color: #631313;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            cursor: pointer;
         }
     </style>
-</head>
 
-<body>
-    <div class="container">
+    <div class="row">
+        <table id='products-table' class="table table-striped table-hover" width="80%">
+            <thead>
+                <tr>
+                    <th>id</th>
+                    <th>Nombre</th>
+                    <th>Descripción</th>
+                    <th>Precio</th>
+                    <th>Existencias</th>
+                    <th>Categoría</th>
+                    <th>Creado el</th>
+                </tr>
+            </thead>
 
-        <div class='panel panel-default'>
-            <div class='panel-heading'>
-                <h2>Lista de Productos</h2>
-            </div>
+            <tbody>
+                @foreach ($allProducts as $product)
+                    <tr>
+                        <td>{{ $product->id }}</td>
+                        <td>{{ $product->name }}</td>
+                        <td>{{ $product->description }}</td>
+                        <td>{{ $product->price }}</td>
+                        <td>{{ $product->stock }}</td>
+                        <td>{{ $product->category }}</td>
+                        <td>{{ $product->created_at }}</td>
+                    </tr>
+                @endforeach
+            </tbody>
 
-            <div class="panel-body">
-                <div class="row">
-                    <table class="table table-striped table-hover" width="80%">
-                        <thead>
-                            <tr>
-                                <th>id</th>
-                                <th>Nombre</th>
-                                <th>Descripción</th>
-                                <th>Precio</th>
-                                <th>Existencias</th>
-                                <th>Categoría</th>
-                            </tr>
-                        </thead>
-
-                        <tbody>
-
-                        </tbody>
-                    </table>
-                </div>
-            </div>
+        </table>
+    </div>
+    <div class="row">
+        <div class="col-md-12" style="text-align:center;">
+            <a href="{{ route('products.create') }}" class="btn btn-primary">Agregar Producto</a>
         </div>
-
     </div>
 
+@endsection
 
-</body>
+@section('scripts')
+    <script>
+        $(document).ready(function() {
+            $('#products-table').DataTable({
+                "language": {
+                    "decimal": "",
+                    "emptyTable": "No hay datos disponibles en la tabla",
+                    "info": "Mostrando _START_ a _END_ de _TOTAL_ registros",
+                    "infoEmpty": "Mostrando 0 a 0 de 0 registros",
+                    "infoFiltered": "(filtrado de _MAX_ registros en total)",
+                    "lengthMenu": "Mostrar _MENU_ registros",
+                    "loadingRecords": "Cargando...",
+                    "processing": "Procesando...",
+                    "search": "Buscar:",
+                    "zeroRecords": "No se encontraron resultados",
+                    "paginate": {
+                        "first": "Primero",
+                        "last": "Último",
+                        "next": "Siguiente",
+                        "previous": "Anterior"
+                    },
+                    "aria": {
+                        "sortAscending": ": Activar para ordenar la columna de manera ascendente",
+                        "sortDescending": ": Activar para ordenar la columna de manera descendente"
+                    }
+                }
+            });
 
-</html>
-
-<script src="../node_modules/bootstrap/dist/js/bootstrap.js"></script>
+            @if(session('success'))
+                Swal.fire({
+                    icon: 'success',
+                    title: '¡Éxito!',
+                    text: '{{ session('success') }}',
+                    confirmButtonText: 'Aceptar'
+                });
+            @endif
+        });
+    </script>
+@endsection

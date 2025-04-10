@@ -8,7 +8,7 @@ Route::get('/', function () {
 });
 
 Route::get('/products', [ProductController::class, 'index'])->name('products.index');
-// Route::get('/products', [ProductController::class, 'create'])->name('products.create');
-// Route::post('/products', [ProductController::class, 'store'])->name('products.store');
+Route::get('/create', [ProductController::class, 'create'])->name('products.create');
+Route::post('/save', [ProductController::class, 'store'])->name('products.store');
 
 
